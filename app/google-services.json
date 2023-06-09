@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "399923425170",
+    "project_id": "bookrent-7863a",
+    "storage_bucket": "bookrent-7863a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399923425170:android:672436cd754f249b119b4b",
+        "android_client_info": {
+          "package_name": "com.example.cmpm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399923425170-2rlecfeb1fn5nr7evn7aoq81ribuu3ic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADeyRFrj2IdTa6RCGjUZuwpZlR3pVk6oA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399923425170-2rlecfeb1fn5nr7evn7aoq81ribuu3ic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
