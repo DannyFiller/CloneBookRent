@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.InfoBookActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivDetail"
+            android:layout_width="155dp"
+            android:layout_height="215dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.014" />
+
+        <TextView
+            android:id="@+id/tvTenSachDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="40dp"
+            android:text="TenSach"
+            app:layout_constraintStart_toEndOf="@+id/ivDetail"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvGia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="Gia"
+            app:layout_constraintStart_toEndOf="@+id/ivDetail"
+            app:layout_constraintTop_toBottomOf="@+id/tvTenSachDetail" />
+
+        <TextView
+            android:id="@+id/lbMota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Mô tả :"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivDetail" />
+
+        <TextView
+            android:id="@+id/tvNoiDung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Nội dung"
+            app:layout_constraintStart_toEndOf="@+id/lbMota"
+            app:layout_constraintTop_toBottomOf="@+id/ivDetail" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="376dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="28dp"
+            android:text="Thuê Sách"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnThemGio"
+            android:layout_width="374dp"
+            android:layout_height="49dp"
+            android:text="Thêm vào giỏ hàng"
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivFavourite"
+            android:layout_width="43dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="52dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.176"
+            app:layout_constraintStart_toEndOf="@+id/ivDetail"
+            app:layout_constraintTop_toBottomOf="@+id/tvGia"
+            app:srcCompat="@drawable/baseline_favorite_border_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

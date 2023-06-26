@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Home" android:id="@+id/mnHome"
+        android:icon="@drawable/baseline_home_24" app:showAsAction="always"/>
+
+    <item android:title="List" android:id="@+id/mnSave"
+        android:icon="@drawable/baseline_bookmark_24" app:showAsAction="always"/>
+
+    <item android:title="Info" android:id="@+id/mnHistory"
+        android:icon="@drawable/baseline_history_24" app:showAsAction="always"/>
+
+    <item android:title="Info" android:id="@+id/mnInfo"
+        android:icon="@drawable/baseline_account_box_24" app:showAsAction="always"/>
+</menu>
