@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7fc9bc"
+    android:background="#FCFDFD"
     tools:context=".ui.LoginActivity">
 
     <TextView
@@ -26,9 +26,10 @@
         android:layout_width="380dp"
         android:layout_height="56dp"
         android:background="@drawable/bg_edittext"
-        android:elevation="10dp"
+        android:elevation="2dp"
         android:hint="Username"
         android:paddingLeft="16dp"
+        android:drawableLeft="@drawable/baseline_account_circle_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
@@ -45,6 +46,7 @@
         android:elevation="2dp"
         android:hint="Password"
         android:paddingLeft="16dp"
+        android:drawableLeft="@drawable/baseline_lock_24"
         android:inputType="textPassword"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -88,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Didn't have account?"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />

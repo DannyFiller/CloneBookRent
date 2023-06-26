@@ -11,12 +11,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cmpm.AdminPage.AddBookActivity;
+import com.example.cmpm.AdminPage.ListBookAdminActivity;
+import com.example.cmpm.MainActivity;
+import com.example.cmpm.Model.User;
 import com.example.cmpm.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,12 +31,15 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     TextView tvReAcc;
 
-    FirebaseAuth auth;
+    public static FirebaseAuth auth;
+    FirebaseFirestore db;
+    String id;
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = auth.getCurrentUser();;
+         FirebaseUser currentUser = auth.getCurrentUser();;
     }
 
     @Override
@@ -38,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         edEmail = findViewById(R.id.edTextUserNameLg);
         edPassword = findViewById(R.id.edTextPasswordLg);
@@ -59,6 +70,20 @@ public class LoginActivity extends AppCompatActivity {
                                 if(task.isSuccessful())
                                 {
                                     Toast.makeText(LoginActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
+                                    id = auth.getCurrentUser().getUid();
+                                    db.collection("User").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            User     user = documentSnapshot.toObject(User.class);
+                                            if(user.getVaiTro() == 1){
+                                                Intent i = new Intent(LoginActivity.this, ListBookAdminActivity.class);
+                                                startActivity(i);
+                                            }else{
+                                                Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                                                startActivity(i);
+                                            }
+                                        }
+                                    });
                                 }
                                 else
                                 {
@@ -67,8 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-                String id = auth.getUid();
-                Toast.makeText(LoginActivity.this, id, Toast.LENGTH_SHORT).show();
+
+
+
+
             }
         });
 

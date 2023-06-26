@@ -19,12 +19,15 @@ import com.google.api.Authentication;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
     EditText edEmail,edPassword,edRepassword;
     Button btnRegister;
-
+    FirebaseFirestore db;
     TextView tvBackLogin;
     FirebaseAuth auth;
     @Override
@@ -33,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         edEmail  = findViewById(R.id.edTextUserNameRg);
         edPassword = findViewById(R.id.edTextPasswordRg);
@@ -58,6 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(password.equals(repassword))
                 {
+
+
                     //dang ky tai khoan firebase
                     auth.createUserWithEmailAndPassword(username,password)
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -65,6 +71,12 @@ public class RegisterActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if(task.isSuccessful())
                                             {
+                                                HashMap<String,Object> user = new HashMap<>();
+                                                user.put("gmail",username);
+                                                user.put("vaiTro",0);
+
+                                                db.collection("User").document(auth.getUid()).set(user);
+
                                                 Toast.makeText(RegisterActivity.this, "Dang ky thanh cong", Toast.LENGTH_SHORT).show();
                                             }
                                             else
@@ -73,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
+
                 }
                 else
                 {
