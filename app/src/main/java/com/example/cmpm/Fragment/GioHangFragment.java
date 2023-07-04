@@ -1,19 +1,23 @@
 package com.example.cmpm.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cmpm.Adapter.BookAdapter;
 import com.example.cmpm.Adapter.GioHangAdapter;
+import com.example.cmpm.MainActivity;
 import com.example.cmpm.Model.Book;
 import com.example.cmpm.R;
 import com.example.cmpm.ui.LoginActivity;
@@ -21,9 +25,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,7 +43,9 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
     CollectionReference ref;
     FirebaseFirestore db;
     TextView tvTongTien;
-    final int[] i = {0};
+    Button btnThanhToan;
+
+
     String idUser = LoginActivity.auth.getUid();
 
     @Override
@@ -45,6 +55,8 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
         db = FirebaseFirestore.getInstance();
 
         tvTongTien = v.findViewById(R.id.tvTongTien);
+        btnThanhToan = v.findViewById(R.id.btnThanhToanGH);
+        String idUser = LoginActivity.auth.getUid();
 
 //        ref = db.collection("Sach");
 
@@ -67,26 +79,46 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
                             Book book = d.toObject(Book.class);
                             book.setId(d.getId());
                             listBook.add(book);
-
-
-                            listBook.forEach(b -> {
-                                i[0] +=b.getGia();
-                            });
-
-                            tvTongTien.setText(String.valueOf(i[0]));
                         }
                         gioHangAdapter.notifyDataSetChanged();
+
+                        int i = 0;
+
+                        for(Book book : listBook)
+                        {
+                            i+= book.getGia();
+                            tvTongTien.setText(String.valueOf(i));
+                        }
                     }
                 });
 
+        btnThanhToan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                for(int i = 0 ; i< listBook.size();i++)
+                {
 
+                    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
+                    String currentDateandTime = sdf.format(new Date());
+                    db.collection("HoaDon").document(idUser).collection(currentDateandTime).add(listBook.get(i));
+                    db.collection("User").document(idUser).collection("GioHang").document(listBook.get(i).getId()).delete();
+                }
+
+                Toast.makeText(getContext(), "Bạn đã thanh toán thành công", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(getContext(), MainActivity.class);
+                startActivity(i);
+            }
+
+        });
 
 
 
         return v;
-
     }
+
+
 
     @Override
     public void onClick(int position, Book book) {
@@ -94,7 +126,9 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
         listBook.remove(book);
         Toast.makeText(getContext(), "đã xoa", Toast.LENGTH_SHORT).show();
 
-
+        int a = Integer.valueOf(tvTongTien.getText().toString().trim());
+        int b = a - book.getGia();
+        tvTongTien.setText(String.valueOf(b));
         gioHangAdapter.notifyDataSetChanged();
     }
 }

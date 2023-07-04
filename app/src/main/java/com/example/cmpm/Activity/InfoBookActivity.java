@@ -1,7 +1,9 @@
 package com.example.cmpm.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OpenForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,7 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.cmpm.Fragment.GioHangFragment;
+import com.example.cmpm.MainActivity;
 import com.example.cmpm.R;
 import com.example.cmpm.ui.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,7 +55,7 @@ public class InfoBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_book);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Ánh xạ
         tenSach = findViewById(R.id.tvTenSachDetail);
         Gia = findViewById(R.id.tvGia);
@@ -68,18 +73,23 @@ public class InfoBookActivity extends AppCompatActivity {
         String tacGia =i.getStringExtra("tacgia");
         String phanLoai = i.getStringExtra("phanloai");
         int gia = i.getIntExtra("gia",0);
+        String mota = i.getStringExtra("mota");
         String idUser = LoginActivity.auth.getUid();
 
         //Load ảnh từ link lấy từ storage trên firebase
         Picasso.get().load(image).into(imDetail);
         tenSach.setText(ten);
+        tvNoiDung.setText(mota);
+        Gia.setText(String.valueOf(gia));
 
         ref =db.collection("User").document(idUser).collection("KhoSach").document(id);
 
         //Sự kiện nút yêu thích
-        ivFavourite.setOnClickListener(BamNutYeuThich(image, ten, id, idUser));
+        ivFavourite.setOnClickListener(BamNutYeuThich(image, ten, id, idUser,tacGia,gia,phanLoai));
 
         btnThemGio.setOnClickListener(ThemGioHang(image, ten, id,tacGia,phanLoai,gia, idUser));
+
+
     }
 
     @NonNull
@@ -98,7 +108,7 @@ public class InfoBookActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private View.OnClickListener BamNutYeuThich(String image, String ten, String id, String idUser) {
+    private View.OnClickListener BamNutYeuThich(String image, String ten, String id, String idUser, String tacGia , int gia, String phanLoai) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,10 +127,13 @@ public class InfoBookActivity extends AppCompatActivity {
                         {
                             ivFavourite.setImageResource(R.drawable.baseline_favorite_24);
                             Map<String, Object> FarBook = new HashMap<>();
-                            FarBook.put("id", id);
-                            FarBook.put("image", image);
                             FarBook.put("YeuThich", 1);
-                            FarBook.put("TenSach", ten);
+                            FarBook.put("id", id);
+                            FarBook.put("tenSach", ten);
+                            FarBook.put("tacGia", tacGia);
+                            FarBook.put("loai", phanLoai);
+                            FarBook.put("gia",gia);
+                            FarBook.put("image", image);
                             db.collection("User").document(idUser).collection("KhoSach").document(id).set(FarBook);
                         }
                     }
@@ -143,6 +156,7 @@ public class InfoBookActivity extends AppCompatActivity {
                 rentBook.put("image", image);
 
                 db.collection("User").document(idUser).collection("GioHang").document(id).set(rentBook);
+                Toast.makeText(InfoBookActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
             }
         };
     }

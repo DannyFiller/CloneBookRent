@@ -43,7 +43,7 @@ public class SachTonKhoAdapter extends RecyclerView.Adapter<SachTonKhoAdapter.My
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.giohang_item_layout,parent,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.list_item_status,parent,false);
         return new MyViewHolder(v);
     }
 
@@ -51,8 +51,15 @@ public class SachTonKhoAdapter extends RecyclerView.Adapter<SachTonKhoAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Book book = list.get(position);
 
-        holder.tvTenSach.setText(list.get(position).getTenSach());
-        holder.tvGiaSach.setText(String.valueOf(list.get(position).getGia()));
+        holder.tvIdSach.setText(list.get(position).getId());
+
+        if (list.get(position).getTinhTrang() == 0)
+        {
+            holder.tvTinhTrang.setText("Còn");
+        }else {
+            holder.tvTinhTrang.setText("đã được mượn");
+        }
+
         Picasso.get().load(list.get(position).getImage()).into(holder.ivSachGioHang);
 
         holder.tvbtnDelete.setOnClickListener(view -> deleteCall.onClick(position,book));
@@ -66,15 +73,15 @@ public class SachTonKhoAdapter extends RecyclerView.Adapter<SachTonKhoAdapter.My
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView ivSachGioHang;
-        TextView tvTenSach,tvGiaSach;
+        TextView tvIdSach,tvTinhTrang;
 
         ImageView tvbtnDelete;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             ivSachGioHang = itemView.findViewById(R.id.ivGioHang);
-            tvTenSach = itemView.findViewById(R.id.tvTenSachGH);
-            tvGiaSach = itemView.findViewById(R.id.tvGiaSachGH);
+            tvIdSach = itemView.findViewById(R.id.idSachEdit);
+            tvTinhTrang = itemView.findViewById(R.id.tvTinhTrang);
             tvbtnDelete = itemView.findViewById(R.id.ivbtnDelete);
         }
     }

@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements BookAdapter.CallBack{
         i.putExtra("phanloai",book.getLoai());
         i.putExtra("gia",book.getGia());
         i.putExtra("tacgia",book.getTacGia());
-
+        i.putExtra("mota",book.getMota());
         startActivity(i);
     }
 }

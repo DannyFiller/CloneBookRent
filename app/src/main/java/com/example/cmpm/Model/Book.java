@@ -8,12 +8,22 @@ public class Book {
     private int Gia;
     private int SoLuong;
     private String image;
-
+    private String mota;
+    private int tinhTrang;
 
 
 
     public Book(){}
 
+    public Book(String id, String tenSach, String tacGia, String loai, int gia, String image,String mota) {
+        this.id = id;
+        TenSach = tenSach;
+        TacGia = tacGia;
+        Loai = loai;
+        Gia = gia;
+        this.image = image;
+        this.mota = mota;
+    }
 
     public Book(String id, String tenSach, String tacGia, String loai, int gia, int soLuong, String image) {
         this.id = id;
@@ -35,6 +45,17 @@ public class Book {
     }
 
 
+
+    public Book(String id, String tenSach, String tacGia, String loai, int gia, String image, String mota, int tinhTrang) {
+        this.id = id;
+        TenSach = tenSach;
+        TacGia = tacGia;
+        Loai = loai;
+        Gia = gia;
+        this.image = image;
+        this.mota = mota;
+        this.tinhTrang = tinhTrang;
+    }
 
     public String getId() {
         return id;
@@ -90,5 +111,21 @@ public class Book {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getMota() {
+        return mota;
+    }
+
+    public void setMota(String mota) {
+        this.mota = mota;
+    }
+
+    public int getTinhTrang() {
+        return tinhTrang;
+    }
+
+    public void setTinhTrang(int tinhTrang) {
+        this.tinhTrang = tinhTrang;
     }
 }

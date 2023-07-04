@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mnBottom = findViewById(R.id.mnBottom);
         LoadFragment(new HomeFragment());
 
@@ -58,5 +59,4 @@ public class MainActivity extends AppCompatActivity {
         fmTranform.addToBackStack(null);
         fmTranform.commit();
     }
-
 }

@@ -5,25 +5,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.cmpm.MainActivity;
 import com.example.cmpm.Model.Book;
 import com.example.cmpm.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.AggregateQuery;
+import com.google.firebase.firestore.AggregateQuerySnapshot;
+import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.firestore.v1.StructuredQuery;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -31,31 +35,40 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AddBookActivity extends AppCompatActivity {
 
-    EditText edTenSach,edTacGia,edPhanLoai,edGia,edSoLuong;
+    EditText edTenSach,edTacGia,edGia,edPhanLoai,edSoLuong,edMota;
     ImageView imUpload;
     Button btnUpload;
     Uri ImageUri;
 
+    Spinner spPhanLoai;
+
     FirebaseFirestore db ;
     FirebaseStorage firebaseStorage;
-
-
     String id;
+
+    String setID;
+    int numberId = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
         edTenSach = findViewById(R.id.edTenSachAdd);
         edTacGia = findViewById(R.id.edTacGiaAdd);
-        edPhanLoai = findViewById(R.id.edPhanLoaiAdd);
+        edPhanLoai = findViewById(R.id.edPhanLoai);
         edSoLuong = findViewById(R.id.edSoLuongAdd);
         edGia = findViewById(R.id.edGiaAdd);
+        edMota = findViewById(R.id.edMota);
 
         imUpload = findViewById(R.id.ivUpload);
 
@@ -67,6 +80,7 @@ public class AddBookActivity extends AppCompatActivity {
                 UploadImage();
             }
         });
+
     }
 
     // load ảnh từ điện thoại
@@ -94,6 +108,8 @@ public class AddBookActivity extends AppCompatActivity {
                 }).check();
 
 
+
+
         //Upload ảnh lên storage trên firebase
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,34 +128,32 @@ public class AddBookActivity extends AppCompatActivity {
                                 book.setLoai(edPhanLoai.getText().toString());
                                 book.setGia(Integer.valueOf(edGia.getText().toString()));
                                 book.setSoLuong(Integer.valueOf(edSoLuong.getText().toString()));
+                                book.setMota(edMota.getText().toString().trim());
                                 book.setImage(uri.toString());
-                                db.collection("DauSach").add(book).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        id = documentReference.getId();
-                                        documentReference.update("id",id);
 
-                                        // tạo ra số lượng sách
-                                        for (int i = 0; i <book.getSoLuong();i++)
-                                        {
-                                            Book book1 = new Book();
-                                            book1.setTenSach(edTenSach.getText().toString());
-                                            book1.setTacGia(edTacGia.getText().toString());
-                                            book1.setLoai(edPhanLoai.getText().toString());
-                                            book1.setGia(Integer.valueOf(edGia.getText().toString()));
-                                            book1.setImage(uri.toString());
-                                            db.collection("DauSach").document(id).collection("SachTonKho").document(String.valueOf(i)).set(book1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    Toast.makeText(AddBookActivity.this, "Uploaded " +book.getSoLuong() , Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-
-
-
+                                //Tạo ID
+                                if(book.getLoai().equals("Manga"))
+                                {
+                                    CheckSoLuong("Manga");
+                                    setID = "MG";
+                                    // lay so luong
+                                    AddBook(book);
+                                }else if(book.getLoai().equals("Manhwa")){
+                                    CheckSoLuong("Manhwa");
+                                    setID = "MW";
+                                    // lay so luong
+                                    AddBook(book);
+                                }else if(book.getLoai().equals("Tiểu thuyết")){
+                                    CheckSoLuong("Tiểu thuyết");
+                                    setID = "TT";
+                                    // lay so luong
+                                    AddBook(book);
+                                }else if(book.getLoai().equals("Giáo dục")){
+                                    CheckSoLuong("Giáo dục");
+                                    setID = "GD";
+                                    // lay so luong
+                                    AddBook(book);
+                                }
 
                                 Toast.makeText(AddBookActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
                             }
@@ -148,7 +162,65 @@ public class AddBookActivity extends AppCompatActivity {
                 });
             }
         });
+    }
 
+    void AddBook(Book book){
+        Map<String, Object> addBook = new HashMap<>();
+        addBook.put("tenSach", book.getTenSach());
+        addBook.put("tacGia", book.getTacGia());
+        addBook.put("loai", book.getLoai());
+        addBook.put("gia", book.getGia());
+        addBook.put("soLuong", book.getSoLuong());
+        addBook.put("moTa", book.getMota());
+        addBook.put("image", book.getImage());
+        db.collection("DauSach").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                setID = setID+numberId;
+                db.collection("DauSach").document(String.valueOf(setID)).set(addBook).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //Tạo sách theo số lượng
+                        for (int i = 0; i <book.getSoLuong();i++)
+                        {
+                            Book book1 = book;
+                            //tạo id cho sách tồn kho
+                            String a = String.valueOf(i);
+                            String idKho = setID+"A"+a;
+
+                            book1.setTinhTrang(0);
+                            book1.setId(idKho);
+
+
+                            db.collection("DauSach").document(String.valueOf(setID)).collection("SachTonKho").document(idKho).set(book1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(AddBookActivity.this, setID, Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(AddBookActivity.this,ListBookAdminActivity.class);
+                                    startActivity(i);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+    void CheckSoLuong(String phanLoai){
+
+        AggregateQuery queryTheoPL = db.collection("DauSach").whereEqualTo("loai",phanLoai).count();
+        queryTheoPL.get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    // Count fetched successfully
+                    AggregateQuerySnapshot snapshot = task.getResult();
+                    numberId = (int) snapshot.getCount();
+                }
+            }
+        });
 
     }
 

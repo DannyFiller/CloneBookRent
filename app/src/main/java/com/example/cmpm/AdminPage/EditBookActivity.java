@@ -35,6 +35,7 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
     Button btnThemGio,btnThanhToan,btnXoa;
     ImageView imDetail,ivFavourite;
     TextView tenSach,Gia,lbMota,tvNoi,tvNoiDung;
+    String idBook;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -63,7 +64,7 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         Intent i = getIntent();
         String image = i.getStringExtra("image");
         String ten = i.getStringExtra("ten");
-        String id = i.getStringExtra("id");
+        idBook = i.getStringExtra("id");
         String tacGia = i.getStringExtra("tacgia");
         String phanLoai = i.getStringExtra("phanloai");
         int gia = i.getIntExtra("gia", 0);
@@ -73,7 +74,7 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         Picasso.get().load(image).into(imDetail);
         tenSach.setText(ten);
 
-        db.collection("DauSach").document(id).collection("SachTonKho").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("DauSach").document(idBook).collection("SachTonKho").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
@@ -90,8 +91,10 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.collection("DauSach").document(id).delete();
+                db.collection("DauSach").document(idBook).delete();
                 Toast.makeText(EditBookActivity.this, "Đã xóa", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(EditBookActivity.this,ListBookAdminActivity.class);
+                startActivity(i);
             }
         });
 
@@ -99,6 +102,6 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
 
     @Override
     public void onClick(int position, Book book) {
-
+//        db.collection("DauSach").document(idBook).collection("SachTonKho").document()
     }
 }

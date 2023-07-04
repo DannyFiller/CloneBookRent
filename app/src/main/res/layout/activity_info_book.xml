@@ -48,26 +48,38 @@
             app:layout_constraintStart_toEndOf="@+id/ivDetail"
             app:layout_constraintTop_toBottomOf="@+id/tvTenSachDetail" />
 
+
         <TextView
             android:id="@+id/lbMota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             android:text="Mô tả :"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivDetail" />
 
-        <TextView
-            android:id="@+id/tvNoiDung"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Nội dung"
-            app:layout_constraintStart_toEndOf="@+id/lbMota"
-            app:layout_constraintTop_toBottomOf="@+id/ivDetail" />
+        <ScrollView
+            android:fillViewport="true"
+            android:layout_width="397dp"
+            android:layout_height="304dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/btnThemGio"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbMota"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/tvNoiDung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:text="Nội dung" />
+        </ScrollView>
 
         <Button
             android:id="@+id/button"

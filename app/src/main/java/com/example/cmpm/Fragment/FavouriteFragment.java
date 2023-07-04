@@ -67,7 +67,7 @@ public class FavouriteFragment extends Fragment implements BookAdapter.CallBack{
                     double yeuThich = d.getDouble("YeuThich");
                     if(yeuThich == 1)
                     {
-                        String idSach = d.getId();
+
                         Book book = d.toObject(Book.class);
                         listBook.add(book);
                     }
@@ -86,7 +86,10 @@ public class FavouriteFragment extends Fragment implements BookAdapter.CallBack{
         i.putExtra("ten",book.getTenSach());
         i.putExtra("image",book.getImage());
         i.putExtra("id",book.getId());
-
+        i.putExtra("phanloai",book.getLoai());
+        i.putExtra("gia",book.getGia());
+        i.putExtra("tacgia",book.getTacGia());
+        i.putExtra("mota",book.getMota());
         startActivity(i);
     }
 }
