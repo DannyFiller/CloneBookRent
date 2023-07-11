@@ -89,7 +89,12 @@ public class FavouriteFragment extends Fragment implements BookAdapter.CallBack{
         i.putExtra("phanloai",book.getLoai());
         i.putExtra("gia",book.getGia());
         i.putExtra("tacgia",book.getTacGia());
-        i.putExtra("mota",book.getMota());
+        i.putExtra("mota",book.getMoTa());
         startActivity(i);
+    }
+
+    @Override
+    public void setFilteredList(ArrayList<Book> filteredList) {
+
     }
 }

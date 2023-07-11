@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,7 +42,7 @@ public class HomeFragment extends Fragment implements BookAdapter.CallBack{
     BookAdapter bookAdapter;
     ArrayList<Book> listBook;
     CollectionReference ref;
-
+    private SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +77,21 @@ public class HomeFragment extends Fragment implements BookAdapter.CallBack{
 
         });
 
+        // tạo thanh tìm kiếm
+        searchView = v.findViewById(R.id.searchView);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return false;
+            }
+        });
         return v;
     }
 
@@ -89,7 +105,29 @@ public class HomeFragment extends Fragment implements BookAdapter.CallBack{
         i.putExtra("phanloai",book.getLoai());
         i.putExtra("gia",book.getGia());
         i.putExtra("tacgia",book.getTacGia());
-        i.putExtra("mota",book.getMota());
+        i.putExtra("mota",book.getMoTa());
         startActivity(i);
+    }
+
+    private void filterList(String text) {
+        ArrayList<Book> filterList = new ArrayList<>();
+        for (Book b : listBook){
+            if(b.getTenSach().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(b);
+            }
+        }
+
+        if(filterList.isEmpty()){
+
+        }
+        else {
+            setFilteredList(filterList);
+        }
+    }
+
+    @Override
+    public void setFilteredList(ArrayList<Book> filteredList) {
+        BookAdapter.list =  filteredList;
+        bookAdapter.notifyDataSetChanged();
     }
 }

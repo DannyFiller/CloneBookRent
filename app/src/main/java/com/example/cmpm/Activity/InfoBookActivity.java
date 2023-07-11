@@ -73,19 +73,19 @@ public class InfoBookActivity extends AppCompatActivity {
         String tacGia =i.getStringExtra("tacgia");
         String phanLoai = i.getStringExtra("phanloai");
         int gia = i.getIntExtra("gia",0);
-        String mota = i.getStringExtra("mota");
+        String moTa = i.getStringExtra("mota");
         String idUser = LoginActivity.auth.getUid();
 
         //Load ảnh từ link lấy từ storage trên firebase
         Picasso.get().load(image).into(imDetail);
         tenSach.setText(ten);
-        tvNoiDung.setText(mota);
+        tvNoiDung.setText(moTa);
         Gia.setText(String.valueOf(gia));
 
         ref =db.collection("User").document(idUser).collection("KhoSach").document(id);
 
         //Sự kiện nút yêu thích
-        ivFavourite.setOnClickListener(BamNutYeuThich(image, ten, id, idUser,tacGia,gia,phanLoai));
+        ivFavourite.setOnClickListener(BamNutYeuThich(image, ten, id, idUser,tacGia,gia,phanLoai,moTa));
 
         btnThemGio.setOnClickListener(ThemGioHang(image, ten, id,tacGia,phanLoai,gia, idUser));
 
@@ -108,7 +108,7 @@ public class InfoBookActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private View.OnClickListener BamNutYeuThich(String image, String ten, String id, String idUser, String tacGia , int gia, String phanLoai) {
+    private View.OnClickListener BamNutYeuThich(String image, String ten, String id, String idUser, String tacGia , int gia, String phanLoai,String moTa) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,6 +132,7 @@ public class InfoBookActivity extends AppCompatActivity {
                             FarBook.put("tenSach", ten);
                             FarBook.put("tacGia", tacGia);
                             FarBook.put("loai", phanLoai);
+                            FarBook.put("moTa",moTa);
                             FarBook.put("gia",gia);
                             FarBook.put("image", image);
                             db.collection("User").document(idUser).collection("KhoSach").document(id).set(FarBook);

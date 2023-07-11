@@ -8,21 +8,21 @@ public class Book {
     private int Gia;
     private int SoLuong;
     private String image;
-    private String mota;
+    private String moTa;
     private int tinhTrang;
 
 
 
     public Book(){}
 
-    public Book(String id, String tenSach, String tacGia, String loai, int gia, String image,String mota) {
+    public Book(String id, String tenSach, String tacGia, String loai, int gia, String image,String moTa) {
         this.id = id;
         TenSach = tenSach;
         TacGia = tacGia;
         Loai = loai;
         Gia = gia;
         this.image = image;
-        this.mota = mota;
+        this.moTa = moTa;
     }
 
     public Book(String id, String tenSach, String tacGia, String loai, int gia, int soLuong, String image) {
@@ -46,14 +46,14 @@ public class Book {
 
 
 
-    public Book(String id, String tenSach, String tacGia, String loai, int gia, String image, String mota, int tinhTrang) {
+    public Book(String id, String tenSach, String tacGia, String loai, int gia, String image, String moTa, int tinhTrang) {
         this.id = id;
         TenSach = tenSach;
         TacGia = tacGia;
         Loai = loai;
         Gia = gia;
         this.image = image;
-        this.mota = mota;
+        this.moTa = moTa;
         this.tinhTrang = tinhTrang;
     }
 
@@ -113,12 +113,12 @@ public class Book {
         this.image = image;
     }
 
-    public String getMota() {
-        return mota;
+    public String getMoTa() {
+        return moTa;
     }
 
-    public void setMota(String mota) {
-        this.mota = mota;
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
     }
 
     public int getTinhTrang() {

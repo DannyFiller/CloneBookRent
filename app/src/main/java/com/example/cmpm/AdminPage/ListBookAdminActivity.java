@@ -1,11 +1,15 @@
 package com.example.cmpm.AdminPage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,14 +31,18 @@ import java.util.List;
 public class ListBookAdminActivity extends AppCompatActivity implements BookAdapter.CallBack{
 
     BookAdapter bookAdapter;
-    ArrayList<Book> listBook;
+    public static ArrayList<Book> listBook;
     FloatingActionButton btnAdd;
     CollectionReference ref;
+    private SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_book_admin);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         btnAdd = findViewById(R.id.btnAdd);
 
@@ -73,6 +81,21 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
             }
         });
 
+        // tạo thanh tìm kiếm
+        searchView = findViewById(R.id.searchView);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -86,4 +109,46 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
         i.putExtra("tacgia",book.getTacGia());
         startActivity(i);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.admin_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.mnReceipt:
+                Intent i = new Intent(ListBookAdminActivity.this,HoaDonActivity.class);
+                startActivity(i);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void filterList(String text) {
+        ArrayList<Book> filterList = new ArrayList<>();
+        for (Book b : listBook){
+            if(b.getId().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(b);
+            }
+        }
+
+        if(filterList.isEmpty()){
+
+        }
+        else {
+            setFilteredList(filterList);
+        }
+    }
+
+    @Override
+    public void setFilteredList(ArrayList<Book> filteredList) {
+        BookAdapter.list =  filteredList;
+        bookAdapter.notifyDataSetChanged();
+    }
+
 }
+

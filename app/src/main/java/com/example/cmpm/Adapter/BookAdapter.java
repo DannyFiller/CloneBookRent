@@ -18,11 +18,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import kotlin.experimental.BitwiseOperationsKt;
+
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
 
     Context context;
 
-    ArrayList<Book> list;
+    public static ArrayList<Book> list;
 
     CallBack bookCall;
 
@@ -37,8 +39,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
         this.bookCall = bookCall;
     }
 
-    public BookAdapter(FirestoreRecyclerOptions<Book> options) {
-    }
 
     @NonNull
     @Override
@@ -62,23 +62,18 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder>{
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-
         ImageView iv;
         TextView tv;
-
-
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             iv = itemView.findViewById(R.id.ivItem);
             tv = itemView.findViewById(R.id.tvItem);
-
-
         }
     }
 
     public interface CallBack{
-
         void onClick(int position, Book book);
+        void setFilteredList(ArrayList<Book> filteredList);
     }
 }

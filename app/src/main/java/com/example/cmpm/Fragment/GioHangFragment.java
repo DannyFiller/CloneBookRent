@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -98,23 +99,28 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
 
                 for(int i = 0 ; i< listBook.size();i++)
                 {
-
                     SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
+                    SimpleDateFormat ngayThue = new SimpleDateFormat("ddMMyyyyHHmm");
+
                     String currentDateandTime = sdf.format(new Date());
-                    db.collection("HoaDon").document(idUser).collection(currentDateandTime).add(listBook.get(i));
+                    String ngayThueSach = ngayThue.format(new Date());
+
+                    HashMap<String,Object> hd = new HashMap<>();
+                    hd.put("maHoaDon",currentDateandTime);
+                    hd.put("maKH",idUser);
+                    hd.put("ngayThue",ngayThueSach);
+                    hd.put("tongTien", Integer.parseInt(tvTongTien.getText().toString()));
+                    db.collection("HoaDon").document(currentDateandTime).set(hd);
+
+                    db.collection("HoaDon").document(currentDateandTime).collection("danhSach").add(listBook.get(i));
                     db.collection("User").document(idUser).collection("GioHang").document(listBook.get(i).getId()).delete();
                 }
-
                 Toast.makeText(getContext(), "Bạn đã thanh toán thành công", Toast.LENGTH_SHORT).show();
-
                 Intent i = new Intent(getContext(), MainActivity.class);
                 startActivity(i);
             }
 
         });
-
-
-
         return v;
     }
 
@@ -130,5 +136,10 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
         int b = a - book.getGia();
         tvTongTien.setText(String.valueOf(b));
         gioHangAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setFilteredList(ArrayList<Book> filteredList) {
+
     }
 }

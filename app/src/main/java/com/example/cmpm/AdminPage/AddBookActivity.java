@@ -52,7 +52,7 @@ public class AddBookActivity extends AppCompatActivity {
     String id;
 
     String setID;
-    int numberId = 1;
+    int numberId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class AddBookActivity extends AppCompatActivity {
                                 book.setLoai(edPhanLoai.getText().toString());
                                 book.setGia(Integer.valueOf(edGia.getText().toString()));
                                 book.setSoLuong(Integer.valueOf(edSoLuong.getText().toString()));
-                                book.setMota(edMota.getText().toString().trim());
+                                book.setMoTa(edMota.getText().toString().trim());
                                 book.setImage(uri.toString());
 
                                 //Tạo ID
@@ -171,7 +171,7 @@ public class AddBookActivity extends AppCompatActivity {
         addBook.put("loai", book.getLoai());
         addBook.put("gia", book.getGia());
         addBook.put("soLuong", book.getSoLuong());
-        addBook.put("moTa", book.getMota());
+        addBook.put("moTa", book.getMoTa());
         addBook.put("image", book.getImage());
         db.collection("DauSach").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
