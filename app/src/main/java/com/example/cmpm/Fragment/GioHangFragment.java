@@ -112,7 +112,8 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
                     hd.put("tongTien", Integer.parseInt(tvTongTien.getText().toString()));
                     db.collection("HoaDon").document(currentDateandTime).set(hd);
 
-                    db.collection("HoaDon").document(currentDateandTime).collection("danhSach").add(listBook.get(i));
+
+                    db.collection("HoaDon").document(currentDateandTime).collection("danhSach").document(listBook.get(i).getId()).set(listBook.get(i));
                     db.collection("User").document(idUser).collection("GioHang").document(listBook.get(i).getId()).delete();
                 }
                 Toast.makeText(getContext(), "Bạn đã thanh toán thành công", Toast.LENGTH_SHORT).show();

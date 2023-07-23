@@ -28,27 +28,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditBookActivity extends AppCompatActivity implements SachTonKhoAdapter.CallBack{
-    SachTonKhoAdapter sachTonKhoAdapter;
-    ArrayList<Book> listSachTon;
+    private SachTonKhoAdapter sachTonKhoAdapter;
+    private ArrayList<Book> listSachTon;
     FirebaseFirestore db;
 
     Button btnThemGio,btnThanhToan,btnXoa;
     ImageView imDetail,ivFavourite;
-    TextView tenSach,Gia,lbMota,tvNoi,tvNoiDung;
+    TextView tenSach,tvGiaMua,tvGiaThue,lbMota,tvNoi,tvNoiDung;
     String idBook;
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_book);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listSachTon = new ArrayList<>();
 
-
         //Ánh xạ
         tenSach = findViewById(R.id.tvTenSachDetailED);
-        Gia = findViewById(R.id.tvGiaED);
+        tvGiaMua = findViewById(R.id.tvGiaED);
+        tvGiaThue = findViewById(R.id.tvGiaThueED);
         imDetail = findViewById(R.id.ivDetailED);
         btnXoa = findViewById(R.id.btnXoa);
 
@@ -68,11 +69,15 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         String tacGia = i.getStringExtra("tacgia");
         String phanLoai = i.getStringExtra("phanloai");
         int gia = i.getIntExtra("gia", 0);
+        int giaThue = i.getIntExtra("giaThue", 0);
         String idUser = LoginActivity.auth.getUid();
 
         //Load ảnh từ link lấy từ storage trên firebase
         Picasso.get().load(image).into(imDetail);
         tenSach.setText(ten);
+        tvGiaMua.setText(String.valueOf(gia));
+        tvGiaThue.setText(String.valueOf(giaThue));
+
 
         db.collection("DauSach").document(idBook).collection("SachTonKho").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -80,7 +85,6 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot d : list) {
                     Book book = d.toObject(Book.class);
-                    book.setId(d.getId());
                     listSachTon.add(book);
                 }
                 sachTonKhoAdapter.notifyDataSetChanged();
@@ -91,6 +95,14 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //xóa toán bộ sách tồn kho
+                db.collection("DauSach").document(idBook).collection("DauSach").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        queryDocumentSnapshots.getDocuments().forEach(snapshot -> snapshot.getReference().delete());
+                    }
+                });
+                //xóa đầu sách
                 db.collection("DauSach").document(idBook).delete();
                 Toast.makeText(EditBookActivity.this, "Đã xóa", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(EditBookActivity.this,ListBookAdminActivity.class);
@@ -102,6 +114,9 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
 
     @Override
     public void onClick(int position, Book book) {
-//        db.collection("DauSach").document(idBook).collection("SachTonKho").document()
+        db.collection("DauSach").document(idBook).collection("SachTonKho").document(book.getId()).delete();
+        listSachTon.remove(book);
+        sachTonKhoAdapter.notifyDataSetChanged();
+        Toast.makeText(this, "Đã xóa", Toast.LENGTH_SHORT).show();
     }
 }

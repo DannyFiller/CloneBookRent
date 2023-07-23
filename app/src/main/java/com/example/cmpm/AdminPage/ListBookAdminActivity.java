@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.cmpm.Activity.InfoBookActivity;
 import com.example.cmpm.Adapter.BookAdapter;
+//import com.example.cmpm.Adapter.XacNhanTraSachAdapter;
 import com.example.cmpm.Model.Book;
 import com.example.cmpm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +32,7 @@ import java.util.List;
 public class ListBookAdminActivity extends AppCompatActivity implements BookAdapter.CallBack{
 
     BookAdapter bookAdapter;
-    public static ArrayList<Book> listBook;
+    private ArrayList<Book> listBook;
     FloatingActionButton btnAdd;
     CollectionReference ref;
     private SearchView searchView;
@@ -100,13 +101,16 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
 
     @Override
     public void onClick(int position, Book book) {
+
         Intent i = new Intent(ListBookAdminActivity.this, EditBookActivity.class);
         i.putExtra("ten",book.getTenSach());
         i.putExtra("image",book.getImage());
         i.putExtra("id",book.getId());
         i.putExtra("phanloai",book.getLoai());
+        i.putExtra("giaThue",book.getGiaThue());
         i.putExtra("gia",book.getGia());
         i.putExtra("tacgia",book.getTacGia());
+
         startActivity(i);
     }
 
@@ -121,8 +125,10 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
 
         switch (item.getItemId()){
             case R.id.mnReceipt:
-                Intent i = new Intent(ListBookAdminActivity.this,HoaDonActivity.class);
-                startActivity(i);
+                startActivity(new Intent(ListBookAdminActivity.this,HoaDonActivity.class));
+
+            case R.id.mnReturnBook:
+                startActivity(new Intent(ListBookAdminActivity.this, XNTraSachActivity .class));
         }
 
         return super.onOptionsItemSelected(item);

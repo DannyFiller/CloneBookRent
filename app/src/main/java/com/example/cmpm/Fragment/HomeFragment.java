@@ -104,6 +104,7 @@ public class HomeFragment extends Fragment implements BookAdapter.CallBack{
         i.putExtra("id",book.getId());
         i.putExtra("phanloai",book.getLoai());
         i.putExtra("gia",book.getGia());
+        i.putExtra("giaThue",book.getGiaThue());
         i.putExtra("tacgia",book.getTacGia());
         i.putExtra("mota",book.getMoTa());
         startActivity(i);

@@ -2,9 +2,11 @@ package com.example.cmpm.Model;
 
 public class User {
     private String id;
-    private String gmail;
+    private String Gmail;
     private String password;
     private int vaiTro;
+    private String ten;
+    private String sdt;
 
 //    public User(String id, String gmail, String password, int vaiTro) {
 //        this.id = id;
@@ -16,8 +18,16 @@ public class User {
     public User(){}
 
     public User(String gmail, int vaiTro) {
-        this.gmail = gmail;
+        this.Gmail = gmail;
         this.vaiTro = vaiTro;
+    }
+
+    public User(String gmail, String password, int vaiTro, String ten, String sdt) {
+        Gmail = gmail;
+        this.password = password;
+        this.vaiTro = vaiTro;
+        this.ten = ten;
+        this.sdt = sdt;
     }
 
     public String getId() {
@@ -37,11 +47,11 @@ public class User {
     }
 
     public String getGmail() {
-        return gmail;
+        return Gmail;
     }
 
     public void setGmail(String gmail) {
-        this.gmail = gmail;
+        this.Gmail = gmail;
     }
 
     public String getPassword() {
@@ -50,5 +60,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cmpm.AdminPage.ListBookAdminActivity;
 import com.example.cmpm.Fragment.GioHangFragment;
 import com.example.cmpm.MainActivity;
 import com.example.cmpm.R;
@@ -34,7 +35,7 @@ import java.util.Map;
 public class InfoBookActivity extends AppCompatActivity {
 
     ImageView imDetail,ivFavourite;
-    TextView tenSach,Gia,lbMota,tvNoi,tvNoiDung;
+    TextView tenSach,tvgiaThue,lbMota,tvNoi,tvNoiDung;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Button btnThemGio,btnThanhToan;
@@ -51,6 +52,7 @@ public class InfoBookActivity extends AppCompatActivity {
         ref.get().addOnSuccessListener(KiemTraYeuThich());
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,7 @@ public class InfoBookActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Ánh xạ
         tenSach = findViewById(R.id.tvTenSachDetail);
-        Gia = findViewById(R.id.tvGia);
+        tvgiaThue = findViewById(R.id.tvGiaThueInfo);
         lbMota = findViewById(R.id.lbMota);
         tvNoiDung = findViewById(R.id.tvNoiDung);
         imDetail = findViewById(R.id.ivDetail);
@@ -73,14 +75,17 @@ public class InfoBookActivity extends AppCompatActivity {
         String tacGia =i.getStringExtra("tacgia");
         String phanLoai = i.getStringExtra("phanloai");
         int gia = i.getIntExtra("gia",0);
+        int giaThue = i.getIntExtra("giaThue",0);
         String moTa = i.getStringExtra("mota");
         String idUser = LoginActivity.auth.getUid();
+
+        Toast.makeText(this, String.valueOf(giaThue), Toast.LENGTH_SHORT).show();
 
         //Load ảnh từ link lấy từ storage trên firebase
         Picasso.get().load(image).into(imDetail);
         tenSach.setText(ten);
         tvNoiDung.setText(moTa);
-        Gia.setText(String.valueOf(gia));
+        tvgiaThue.setText(String.valueOf(giaThue)+" VND");
 
         ref =db.collection("User").document(idUser).collection("KhoSach").document(id);
 

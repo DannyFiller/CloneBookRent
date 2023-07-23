@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class AddBookActivity extends AppCompatActivity {
 
-    EditText edTenSach,edTacGia,edGia,edPhanLoai,edSoLuong,edMota;
+    EditText edTenSach,edTacGia,edGia,edPhanLoai,edSoLuong,edMota,edGiaThue;
     ImageView imUpload;
     Button btnUpload;
     Uri ImageUri;
@@ -52,7 +52,7 @@ public class AddBookActivity extends AppCompatActivity {
     String id;
 
     String setID;
-    int numberId = 0;
+    int numberId ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class AddBookActivity extends AppCompatActivity {
         edSoLuong = findViewById(R.id.edSoLuongAdd);
         edGia = findViewById(R.id.edGiaAdd);
         edMota = findViewById(R.id.edMota);
+        edGiaThue = findViewById(R.id.edGiaThue);
 
         imUpload = findViewById(R.id.ivUpload);
 
@@ -107,8 +108,7 @@ public class AddBookActivity extends AppCompatActivity {
                     }
                 }).check();
 
-
-
+        
 
         //Upload ảnh lên storage trên firebase
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -130,29 +130,29 @@ public class AddBookActivity extends AppCompatActivity {
                                 book.setSoLuong(Integer.valueOf(edSoLuong.getText().toString()));
                                 book.setMoTa(edMota.getText().toString().trim());
                                 book.setImage(uri.toString());
-
+                                book.setGiaThue(Integer.valueOf(edGiaThue.getText().toString()));
                                 //Tạo ID
                                 if(book.getLoai().equals("Manga"))
                                 {
-                                    CheckSoLuong("Manga");
+                                    CheckSoLuong("Manga",book);
                                     setID = "MG";
                                     // lay so luong
-                                    AddBook(book);
+//                                    AddBook(book);
                                 }else if(book.getLoai().equals("Manhwa")){
-                                    CheckSoLuong("Manhwa");
+                                    CheckSoLuong("Manhwa",book);
                                     setID = "MW";
                                     // lay so luong
-                                    AddBook(book);
+//                                    AddBook(book);
                                 }else if(book.getLoai().equals("Tiểu thuyết")){
-                                    CheckSoLuong("Tiểu thuyết");
+                                    CheckSoLuong("Tiểu thuyết",book);
                                     setID = "TT";
                                     // lay so luong
-                                    AddBook(book);
+//                                    AddBook(book);
                                 }else if(book.getLoai().equals("Giáo dục")){
-                                    CheckSoLuong("Giáo dục");
+                                    CheckSoLuong("Giáo dục",book);
                                     setID = "GD";
                                     // lay so luong
-                                    AddBook(book);
+//                                    AddBook(book);
                                 }
 
                                 Toast.makeText(AddBookActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
@@ -165,6 +165,7 @@ public class AddBookActivity extends AppCompatActivity {
     }
 
     void AddBook(Book book){
+
         Map<String, Object> addBook = new HashMap<>();
         addBook.put("tenSach", book.getTenSach());
         addBook.put("tacGia", book.getTacGia());
@@ -173,13 +174,17 @@ public class AddBookActivity extends AppCompatActivity {
         addBook.put("soLuong", book.getSoLuong());
         addBook.put("moTa", book.getMoTa());
         addBook.put("image", book.getImage());
+        addBook.put("id",book.getId());
+        addBook.put("giaThue",book.getGiaThue());
         db.collection("DauSach").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                setID = setID+numberId;
+                setID = setID+ numberId;
+
                 db.collection("DauSach").document(String.valueOf(setID)).set(addBook).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        db.collection("DauSach").document(setID).update("id",setID);
                         //Tạo sách theo số lượng
                         for (int i = 0; i <book.getSoLuong();i++)
                         {
@@ -195,7 +200,7 @@ public class AddBookActivity extends AppCompatActivity {
                             db.collection("DauSach").document(String.valueOf(setID)).collection("SachTonKho").document(idKho).set(book1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Toast.makeText(AddBookActivity.this, setID, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AddBookActivity.this, setID , Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(AddBookActivity.this,ListBookAdminActivity.class);
                                     startActivity(i);
                                 }
@@ -207,17 +212,17 @@ public class AddBookActivity extends AppCompatActivity {
         });
     }
 
-
-    void CheckSoLuong(String phanLoai){
+    //đếm số lượng sách theo phân loại
+    void CheckSoLuong(String phanLoai,Book book){
 
         AggregateQuery queryTheoPL = db.collection("DauSach").whereEqualTo("loai",phanLoai).count();
         queryTheoPL.get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    // Count fetched successfully
                     AggregateQuerySnapshot snapshot = task.getResult();
                     numberId = (int) snapshot.getCount();
+                    AddBook(book);
                 }
             }
         });

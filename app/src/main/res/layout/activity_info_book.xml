@@ -35,19 +35,35 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="40dp"
             android:text="TenSach"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/ivDetail"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvGia"
+            android:id="@+id/tvGiaLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
-            android:text="Gia"
+            android:text="Giá thuê: "
+            android:textStyle="bold"
+            android:textColor="#fc0f03"
             app:layout_constraintStart_toEndOf="@+id/ivDetail"
             app:layout_constraintTop_toBottomOf="@+id/tvTenSachDetail" />
 
+
+        <TextView
+            android:id="@+id/tvGiaThueInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="GiaThue"
+            android:textStyle="bold"
+            android:textColor="#fc0f03"
+            app:layout_constraintStart_toEndOf="@+id/tvGiaLabel"
+            app:layout_constraintTop_toBottomOf="@+id/tvTenSachDetail" />
 
         <TextView
             android:id="@+id/lbMota"
@@ -108,7 +124,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.176"
             app:layout_constraintStart_toEndOf="@+id/ivDetail"
-            app:layout_constraintTop_toBottomOf="@+id/tvGia"
+            app:layout_constraintTop_toBottomOf="@+id/tvGiaLabel"
             app:srcCompat="@drawable/baseline_favorite_border_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

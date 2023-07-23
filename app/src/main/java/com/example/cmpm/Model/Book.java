@@ -10,17 +10,19 @@ public class Book {
     private String image;
     private String moTa;
     private int tinhTrang;
+    private int giaThue;
 
 
 
     public Book(){}
 
-    public Book(String id, String tenSach, String tacGia, String loai, int gia, String image,String moTa) {
+    public Book(String id, String tenSach, String tacGia, String loai, int gia,int giaThue, String image,String moTa) {
         this.id = id;
-        TenSach = tenSach;
-        TacGia = tacGia;
-        Loai = loai;
-        Gia = gia;
+        this.TenSach = tenSach;
+        this.TacGia = tacGia;
+        this.Loai = loai;
+        this.Gia = gia;
+        this.giaThue = giaThue;
         this.image = image;
         this.moTa = moTa;
     }
@@ -127,5 +129,13 @@ public class Book {
 
     public void setTinhTrang(int tinhTrang) {
         this.tinhTrang = tinhTrang;
+    }
+
+    public int getGiaThue() {
+        return giaThue;
+    }
+
+    public void setGiaThue(int giaThue) {
+        this.giaThue = giaThue;
     }
 }
