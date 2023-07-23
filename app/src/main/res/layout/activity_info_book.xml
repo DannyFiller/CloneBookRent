@@ -20,13 +20,13 @@
             android:id="@+id/ivDetail"
             android:layout_width="155dp"
             android:layout_height="215dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.014" />
+            app:layout_constraintVertical_bias="0.012" />
 
         <TextView
             android:id="@+id/tvTenSachDetail"
@@ -98,23 +98,17 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="376dp"
-            android:layout_height="46dp"
-            android:layout_marginBottom="28dp"
-            android:text="Thuê Sách"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
             android:id="@+id/btnThemGio"
             android:layout_width="374dp"
             android:layout_height="49dp"
+            android:layout_marginBottom="16dp"
             android:text="Thêm vào giỏ hàng"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivDetail"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/ivFavourite"

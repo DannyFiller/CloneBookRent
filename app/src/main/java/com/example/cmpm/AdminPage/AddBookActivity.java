@@ -156,8 +156,10 @@ public class AddBookActivity extends AppCompatActivity {
                                 }
 
                                 Toast.makeText(AddBookActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
                             }
                         });
+
                     }
                 });
             }

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.cmpm.Adapter.BookAdapter;
 import com.example.cmpm.Adapter.GioHangAdapter;
 import com.example.cmpm.MainActivity;
 import com.example.cmpm.Model.Book;
+import com.example.cmpm.Model.User;
 import com.example.cmpm.R;
 import com.example.cmpm.ui.LoginActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,13 +55,12 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_giohang, container, false);
+        getActivity().setTitle("Giỏ Hàng");
         db = FirebaseFirestore.getInstance();
 
         tvTongTien = v.findViewById(R.id.tvTongTien);
         btnThanhToan = v.findViewById(R.id.btnThanhToanGH);
         String idUser = LoginActivity.auth.getUid();
-
-//        ref = db.collection("Sach");
 
         listBook = new ArrayList<>();
 
@@ -87,7 +88,7 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
 
                         for(Book book : listBook)
                         {
-                            i+= book.getGia();
+                            i+= book.getGiaThue();
                             tvTongTien.setText(String.valueOf(i));
                         }
                     }
@@ -110,6 +111,8 @@ public class GioHangFragment extends Fragment implements BookAdapter.CallBack, G
                     hd.put("maKH",idUser);
                     hd.put("ngayThue",ngayThueSach);
                     hd.put("tongTien", Integer.parseInt(tvTongTien.getText().toString()));
+                    hd.put("TenKh", LoginActivity.curUser.getTen());
+
                     db.collection("HoaDon").document(currentDateandTime).set(hd);
 
 

@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvReAcc;
 
     public static FirebaseAuth auth;
+    public static User curUser;
     FirebaseFirestore db;
     String id;
 
@@ -73,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                                     db.collection("User").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            User     user = documentSnapshot.toObject(User.class);
-                                            if(user.getVaiTro() == 1){
+                                            curUser = documentSnapshot.toObject(User.class);
+                                            if(curUser.getVaiTro() == 1){
                                                 Intent i = new Intent(LoginActivity.this, ListBookAdminActivity.class);
                                                 startActivity(i);
                                             }else{

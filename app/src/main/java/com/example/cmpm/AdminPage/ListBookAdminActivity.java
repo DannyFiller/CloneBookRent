@@ -20,6 +20,7 @@ import com.example.cmpm.Adapter.BookAdapter;
 import com.example.cmpm.Model.Book;
 import com.example.cmpm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,7 +34,7 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
 
     BookAdapter bookAdapter;
     private ArrayList<Book> listBook;
-    FloatingActionButton btnAdd;
+    ExtendedFloatingActionButton btnAdd;
     CollectionReference ref;
     private SearchView searchView;
     @Override
@@ -41,8 +42,7 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_book_admin);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
+        getSupportActionBar().setTitle("Admin");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         btnAdd = findViewById(R.id.btnAdd);
@@ -69,6 +69,7 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
                     listBook.add(book);
                 }
                 bookAdapter.notifyDataSetChanged();
+
             }
 
         });
@@ -110,6 +111,8 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
         i.putExtra("giaThue",book.getGiaThue());
         i.putExtra("gia",book.getGia());
         i.putExtra("tacgia",book.getTacGia());
+        i.putExtra("soLuong",book.getSoLuong());
+        i.putExtra("moTa",book.getMoTa());
 
         startActivity(i);
     }
@@ -124,11 +127,16 @@ public class ListBookAdminActivity extends AppCompatActivity implements BookAdap
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.mnReceipt:
-                startActivity(new Intent(ListBookAdminActivity.this,HoaDonActivity.class));
 
             case R.id.mnReturnBook:
                 startActivity(new Intent(ListBookAdminActivity.this, XNTraSachActivity .class));
+                break;
+            case R.id.mnReceipt:
+                startActivity(new Intent(ListBookAdminActivity.this,HoaDonActivity.class));
+                break;
+            case R.id.mnDoanhThu:
+                startActivity(new Intent(ListBookAdminActivity.this,DoanhThuActivity.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);

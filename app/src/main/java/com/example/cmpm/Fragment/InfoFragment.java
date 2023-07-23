@@ -34,9 +34,10 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         View v =  inflater.inflate(R.layout.fragment_info, container, false);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+        getActivity().setTitle("Thông Tin Tài Khoản");
         btnOut = v.findViewById(R.id.btnOut);
         tvTenKH = v.findViewById(R.id.tvTenKH);
         tvGmail = v.findViewById(R.id.tvGmailKH);

@@ -40,7 +40,7 @@ public class FavouriteFragment extends Fragment implements BookAdapter.CallBack{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        getActivity().setTitle("Trang Yêu Thích");
         View v =  inflater.inflate(R.layout.fragment_favourite, container, false);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

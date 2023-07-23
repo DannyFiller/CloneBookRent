@@ -32,7 +32,7 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
     private ArrayList<Book> listSachTon;
     FirebaseFirestore db;
 
-    Button btnThemGio,btnThanhToan,btnXoa;
+    Button btnThemGio,btnThanhToan,btnXoa,btnSua;
     ImageView imDetail,ivFavourite;
     TextView tenSach,tvGiaMua,tvGiaThue,lbMota,tvNoi,tvNoiDung;
     String idBook;
@@ -52,6 +52,7 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         tvGiaThue = findViewById(R.id.tvGiaThueED);
         imDetail = findViewById(R.id.ivDetailED);
         btnXoa = findViewById(R.id.btnXoa);
+        btnSua = findViewById(R.id.btnSua);
 
         db = FirebaseFirestore.getInstance();
 
@@ -63,6 +64,7 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         recyclerView.setAdapter(sachTonKhoAdapter);
 
         Intent i = getIntent();
+
         String image = i.getStringExtra("image");
         String ten = i.getStringExtra("ten");
         idBook = i.getStringExtra("id");
@@ -70,6 +72,10 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         String phanLoai = i.getStringExtra("phanloai");
         int gia = i.getIntExtra("gia", 0);
         int giaThue = i.getIntExtra("giaThue", 0);
+        int soLuong = i.getIntExtra("soLuong",0);
+        String moTa = i.getStringExtra("moTa");
+
+
         String idUser = LoginActivity.auth.getUid();
 
         //Load ảnh từ link lấy từ storage trên firebase
@@ -88,6 +94,7 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
                     listSachTon.add(book);
                 }
                 sachTonKhoAdapter.notifyDataSetChanged();
+
             }
 
         });
@@ -100,12 +107,30 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         queryDocumentSnapshots.getDocuments().forEach(snapshot -> snapshot.getReference().delete());
+
                     }
                 });
                 //xóa đầu sách
                 db.collection("DauSach").document(idBook).delete();
                 Toast.makeText(EditBookActivity.this, "Đã xóa", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(EditBookActivity.this,ListBookAdminActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btnSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i  = new Intent(EditBookActivity.this,SuaSachActivity.class);
+                i.putExtra("ten",ten);
+                i.putExtra("image",image);
+                i.putExtra("id",idBook);
+                i.putExtra("phanloai",phanLoai);
+                i.putExtra("giaThue",giaThue);
+                i.putExtra("gia",gia);
+                i.putExtra("tacgia",tacGia);
+                i.putExtra("soLuong",soLuong);
+                i.putExtra("moTa",moTa);
                 startActivity(i);
             }
         });

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="List" android:id="@+id/mnReceipt"
+        android:icon="@drawable/baseline_menu_book_24" app:showAsAction="always"/>
+
+    <item android:title="Return Book" android:id="@+id/mnReturnBook"
+        android:icon="@drawable/baseline_library_add_check_24" app:showAsAction="always"/>
+
+    <item android:title="Doanh Thu" android:id="@+id/mnDoanhThu"
+        android:icon="@drawable/baseline_bar_chart_24" app:showAsAction="always"/>
+</menu>

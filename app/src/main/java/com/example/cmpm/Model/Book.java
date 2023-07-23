@@ -11,7 +11,7 @@ public class Book {
     private String moTa;
     private int tinhTrang;
     private int giaThue;
-
+    private String idSachThue;
 
 
     public Book(){}
@@ -25,6 +25,18 @@ public class Book {
         this.giaThue = giaThue;
         this.image = image;
         this.moTa = moTa;
+    }
+
+    public Book(String id, String tenSach, String tacGia, String loai, int gia,int giaThue, String image,String moTa,String idSachThue) {
+        this.id = id;
+        this.TenSach = tenSach;
+        this.TacGia = tacGia;
+        this.Loai = loai;
+        this.Gia = gia;
+        this.giaThue = giaThue;
+        this.image = image;
+        this.moTa = moTa;
+        this.idSachThue = idSachThue;
     }
 
     public Book(String id, String tenSach, String tacGia, String loai, int gia, int soLuong, String image) {
@@ -134,8 +146,15 @@ public class Book {
     public int getGiaThue() {
         return giaThue;
     }
-
     public void setGiaThue(int giaThue) {
         this.giaThue = giaThue;
+    }
+
+    public String getIdSachThue() {
+        return idSachThue;
+    }
+
+    public void setIdSachThue(String idSachThue) {
+        this.idSachThue = idSachThue;
     }
 }

@@ -79,7 +79,6 @@ public class InfoBookActivity extends AppCompatActivity {
         String moTa = i.getStringExtra("mota");
         String idUser = LoginActivity.auth.getUid();
 
-        Toast.makeText(this, String.valueOf(giaThue), Toast.LENGTH_SHORT).show();
 
         //Load ảnh từ link lấy từ storage trên firebase
         Picasso.get().load(image).into(imDetail);
@@ -90,9 +89,9 @@ public class InfoBookActivity extends AppCompatActivity {
         ref =db.collection("User").document(idUser).collection("KhoSach").document(id);
 
         //Sự kiện nút yêu thích
-        ivFavourite.setOnClickListener(BamNutYeuThich(image, ten, id, idUser,tacGia,gia,phanLoai,moTa));
+        ivFavourite.setOnClickListener(BamNutYeuThich(image, ten, id, idUser,tacGia,gia,phanLoai,moTa,giaThue));
 
-        btnThemGio.setOnClickListener(ThemGioHang(image, ten, id,tacGia,phanLoai,gia, idUser));
+        btnThemGio.setOnClickListener(ThemGioHang(image, ten, id,tacGia,phanLoai,gia, idUser,giaThue));
 
 
     }
@@ -113,7 +112,7 @@ public class InfoBookActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private View.OnClickListener BamNutYeuThich(String image, String ten, String id, String idUser, String tacGia , int gia, String phanLoai,String moTa) {
+    private View.OnClickListener BamNutYeuThich(String image, String ten, String id, String idUser, String tacGia , int gia, String phanLoai,String moTa,int giaThue) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,6 +138,7 @@ public class InfoBookActivity extends AppCompatActivity {
                             FarBook.put("loai", phanLoai);
                             FarBook.put("moTa",moTa);
                             FarBook.put("gia",gia);
+                            FarBook.put("giaThue",giaThue);
                             FarBook.put("image", image);
                             db.collection("User").document(idUser).collection("KhoSach").document(id).set(FarBook);
                         }
@@ -149,7 +149,7 @@ public class InfoBookActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private View.OnClickListener ThemGioHang(String image, String ten, String id,String tacGia,String phanLoai,int gia, String idUser) {
+    private View.OnClickListener ThemGioHang(String image, String ten, String id,String tacGia,String phanLoai,int gia, String idUser,int giaThue) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,6 +159,7 @@ public class InfoBookActivity extends AppCompatActivity {
                 rentBook.put("tacGia", tacGia);
                 rentBook.put("loai", phanLoai);
                 rentBook.put("gia",gia);
+                rentBook.put("giaThue",giaThue);
                 rentBook.put("image", image);
 
                 db.collection("User").document(idUser).collection("GioHang").document(id).set(rentBook);
