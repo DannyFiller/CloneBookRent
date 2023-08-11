@@ -4,8 +4,8 @@
     <item android:title="Home" android:id="@+id/mnHome"
         android:icon="@drawable/baseline_home_24" app:showAsAction="always"/>
 
-    <item android:title="List" android:id="@+id/mnSave"
-        android:icon="@drawable/baseline_bookmark_24" app:showAsAction="always"/>
+    <item android:title="Favorite" android:id="@+id/mnSave"
+        android:icon="@drawable/baseline_favorite_24_2" app:showAsAction="always"/>
 
     <item android:title="Info" android:id="@+id/mnHistory"
         android:icon="@drawable/baseline_shopping_cart_24" app:showAsAction="always"/>

@@ -9,18 +9,17 @@
 
     <TextView
         android:id="@+id/tvRegister"
-        android:layout_width="166dp"
-        android:layout_height="66dp"
+        android:layout_width="172dp"
+        android:layout_height="57dp"
         android:text="Đăng Ký"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="32sp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@id/edTextUserNameRg"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.932" />
+        app:layout_constraintVertical_bias="0.532" />
 
     <EditText
         android:id="@+id/edTextUserNameRg"
@@ -35,7 +34,7 @@
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.583" />
+        app:layout_constraintVertical_bias="0.202" />
 
     <EditText
         android:id="@+id/edTextPasswordRg"
@@ -44,6 +43,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_edittext"
         android:elevation="2dp"
+        android:inputType="textPassword"
         android:hint="Mật khẩu"
         android:paddingLeft="16dp"
         app:layout_constraintHorizontal_bias="0.483"
@@ -58,6 +58,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_edittext"
         android:elevation="2dp"
+        android:inputType="textPassword"
         android:hint="Nhập lại mật khẩu"
         android:paddingLeft="16dp"
         app:layout_constraintHorizontal_bias="0.483"
@@ -66,16 +67,42 @@
         app:layout_constraintTop_toBottomOf="@+id/edTextPasswordRg" />
 
 
+    <EditText
+        android:id="@+id/edTenKhach"
+        android:layout_width="380dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_edittext"
+        android:elevation="2dp"
+        android:layout_marginTop="16dp"
+        android:hint="Tên người dùng"
+        android:paddingLeft="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edTextRePasswordRg" />
+
+    <EditText
+        android:id="@+id/edSDT"
+        android:layout_width="380dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_edittext"
+        android:elevation="2dp"
+        android:layout_marginTop="16dp"
+        android:hint="Số điện thoại"
+        android:paddingLeft="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edTenKhach" />
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Đăng ký"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edTextRePasswordRg" />
+        app:layout_constraintTop_toBottomOf="@+id/edSDT" />
 
     <TextView
         android:id="@+id/tvBackLogin"
@@ -101,16 +128,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="213dp"
-        android:layout_height="189dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815"
-        app:srcCompat="@drawable/book" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

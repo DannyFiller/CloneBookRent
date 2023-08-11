@@ -23,6 +23,9 @@
         android:theme="@style/Theme.Cmpm"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.InfoHoaDonDTActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminPage.DoanhThuActivity"
             android:exported="false" />
         <activity

@@ -81,8 +81,8 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
         //Load ảnh từ link lấy từ storage trên firebase
         Picasso.get().load(image).into(imDetail);
         tenSach.setText(ten);
-        tvGiaMua.setText(String.valueOf(gia));
-        tvGiaThue.setText(String.valueOf(giaThue));
+        tvGiaMua.setText(String.valueOf(gia)+" VNĐ");
+        tvGiaThue.setText(String.valueOf(giaThue)+ " VNĐ");
 
 
         db.collection("DauSach").document(idBook).collection("SachTonKho").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -107,7 +107,6 @@ public class EditBookActivity extends AppCompatActivity implements SachTonKhoAda
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         queryDocumentSnapshots.getDocuments().forEach(snapshot -> snapshot.getReference().delete());
-
                     }
                 });
                 //xóa đầu sách

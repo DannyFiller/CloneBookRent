@@ -54,7 +54,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.MyViewHo
         Book book = list.get(position);
 
         holder.tvTenSach.setText(list.get(position).getTenSach());
-        holder.tvGiaSach.setText(String.valueOf(list.get(position).getGiaThue())+" VND");
+        holder.tvGiaSach.setText(String.valueOf(list.get(position).getGiaThue())+" VNĐ");
         Picasso.get().load(list.get(position).getImage()).into(holder.ivSachGioHang);
 
         holder.tvbtnDelete.setOnClickListener(view -> deleteCall.onClick(position,book));

@@ -43,7 +43,7 @@ public class ListThueAdapter extends RecyclerView.Adapter<ListThueAdapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Book book1 = book.get(position);
         holder.tvTenSach.setText(book.get(position).getTenSach());
-        holder.tvGiaSach.setText(String.valueOf(book.get(position).getGia()));
+        holder.tvGiaSach.setText(String.valueOf(book.get(position).getGiaThue())+" VNĐ");
         Picasso.get().load(book.get(position).getImage()).into(holder.ivSachGioHang);
         holder.btnChonSach.setOnClickListener(view -> callBack.onClick(position,book1));
 

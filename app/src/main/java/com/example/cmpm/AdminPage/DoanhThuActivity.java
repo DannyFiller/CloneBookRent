@@ -5,9 +5,12 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.cmpm.Activity.InfoHoaDonActivity;
+import com.example.cmpm.Activity.InfoHoaDonDTActivity;
 import com.example.cmpm.Adapter.XacNhanTraSachAdapter;
 import com.example.cmpm.Model.Book;
 import com.example.cmpm.Model.HoaDon;
@@ -34,6 +37,7 @@ public class DoanhThuActivity extends AppCompatActivity implements XacNhanTraSac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doanh_thu);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        getSupportActionBar().setTitle("Doanh Thu");
 
         tvTongDoanhThu = findViewById(R.id.tvTongTienDT);
 
@@ -92,6 +96,20 @@ public class DoanhThuActivity extends AppCompatActivity implements XacNhanTraSac
 
     @Override
     public void onClick(int position, HoaDon hd) {
+        Intent i = new Intent(DoanhThuActivity.this, InfoHoaDonDTActivity.class);
+        i.putExtra("maHoaDon",hd.getMaHoaDon());
+        i.putExtra("maKH",hd.getMaKH());
+        i.putExtra("tongTien",hd.getTongTien());
+        i.putExtra("ngayThue",hd.getNgayThue());
+
+
+
+        Intent a = new Intent(DoanhThuActivity.this, InfoHoaDonDTActivity.class);
+        a.putExtra("maHoaDon",hd.getMaHoaDon());
+        a.putExtra("maKH",hd.getMaKH());
+        a.putExtra("tongTien",hd.getTongTien());
+        a.putExtra("ngayThue",hd.getNgayThue());
+        startActivity(i);
     }
 
     private void filterList(String text) {

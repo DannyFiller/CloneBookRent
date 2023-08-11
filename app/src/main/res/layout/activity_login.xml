@@ -44,7 +44,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_edittext"
         android:elevation="2dp"
-        android:hint="Mậ khẩu"
+        android:hint="Mật khẩu"
         android:paddingLeft="16dp"
         android:drawableLeft="@drawable/baseline_lock_24"
         android:inputType="textPassword"

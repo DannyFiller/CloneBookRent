@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clipToPadding="false"
+    android:fadingEdge="none"
+    android:fillViewport="true"
+    android:padding="13dp"
+    android:scrollbarStyle="outsideOverlay" >
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdminPage.AddBookActivity">
@@ -72,14 +81,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edGiaAdd" />
 
-    <EditText
+    <Spinner
         android:id="@+id/edPhanLoai"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="32sp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="Phân Loại"
+        android:background="@drawable/spinner_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,6 +116,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Giá thuê"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,14 +126,12 @@
         android:id="@+id/ivUpload"
         android:layout_width="380dp"
         android:layout_height="137dp"
+        android:layout_marginTop="40dp"
         android:clickable="true"
         android:src="@drawable/image"
-        app:layout_constraintBottom_toTopOf="@+id/btnUpload"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edGiaThue"
-        app:layout_constraintVertical_bias="0.602" />
+        app:layout_constraintTop_toBottomOf="@+id/edGiaThue" />
 
     <Button
         android:id="@+id/btnUpload"
@@ -136,10 +144,12 @@
 "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.315"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivUpload"
+        app:layout_constraintVertical_bias="0.481" />
 
-<!--    <Spinner-->
+    <!--    <Spinner-->
 <!--        android:id="@+id/spinner"-->
 <!--        android:layout_width="379dp"-->
 <!--        android:layout_height="44dp"-->
@@ -150,3 +160,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

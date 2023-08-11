@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,7 +42,7 @@ import java.util.Map;
 
 public class AddBookActivity extends AppCompatActivity {
 
-    EditText edTenSach,edTacGia,edGia,edPhanLoai,edSoLuong,edMota,edGiaThue;
+    EditText edTenSach,edTacGia,edGia,edSoLuong,edMota,edGiaThue;
     ImageView imUpload;
     Button btnUpload;
     Uri ImageUri;
@@ -65,7 +67,7 @@ public class AddBookActivity extends AppCompatActivity {
 
         edTenSach = findViewById(R.id.edTenSachAdd);
         edTacGia = findViewById(R.id.edTacGiaAdd);
-        edPhanLoai = findViewById(R.id.edPhanLoai);
+        spPhanLoai = findViewById(R.id.edPhanLoai);
         edSoLuong = findViewById(R.id.edSoLuongAdd);
         edGia = findViewById(R.id.edGiaAdd);
         edMota = findViewById(R.id.edMota);
@@ -74,6 +76,13 @@ public class AddBookActivity extends AppCompatActivity {
         imUpload = findViewById(R.id.ivUpload);
 
         btnUpload = findViewById(R.id.btnUpload);
+
+        String phanLoai[]={"Lập Trình","Lịch Sử","Tiểu thuyết","Giáo dục"};
+        ArrayAdapter adapter	=	new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, phanLoai);
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        spPhanLoai.setAdapter(adapter);
+
+
 
         imUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,37 +134,33 @@ public class AddBookActivity extends AppCompatActivity {
                                 Book book = new Book();
                                 book.setTenSach(edTenSach.getText().toString());
                                 book.setTacGia(edTacGia.getText().toString());
-                                book.setLoai(edPhanLoai.getText().toString());
+                                book.setLoai(spPhanLoai.getSelectedItem().toString());
                                 book.setGia(Integer.valueOf(edGia.getText().toString()));
                                 book.setSoLuong(Integer.valueOf(edSoLuong.getText().toString()));
                                 book.setMoTa(edMota.getText().toString().trim());
                                 book.setImage(uri.toString());
                                 book.setGiaThue(Integer.valueOf(edGiaThue.getText().toString()));
                                 //Tạo ID
-                                if(book.getLoai().equals("Manga"))
+                                if(book.getLoai().equals("Lập Trình"))
                                 {
-                                    CheckSoLuong("Manga",book);
-                                    setID = "MG";
+                                    CheckSoLuong("Lập Trình",book);
+                                    setID = "LT";
                                     // lay so luong
 //                                    AddBook(book);
-                                }else if(book.getLoai().equals("Manhwa")){
-                                    CheckSoLuong("Manhwa",book);
-                                    setID = "MW";
-                                    // lay so luong
-//                                    AddBook(book);
+                                }else if(book.getLoai().equals("Lịch Sử")){
+                                    CheckSoLuong("Lịch Sử",book);
+                                    setID = "LS";
                                 }else if(book.getLoai().equals("Tiểu thuyết")){
                                     CheckSoLuong("Tiểu thuyết",book);
                                     setID = "TT";
-                                    // lay so luong
-//                                    AddBook(book);
                                 }else if(book.getLoai().equals("Giáo dục")){
                                     CheckSoLuong("Giáo dục",book);
                                     setID = "GD";
-                                    // lay so luong
-//                                    AddBook(book);
+                                }else if(book.getLoai().equals("Văn Học")){
+                                    CheckSoLuong("Văn Học",book);
+                                    setID = "VH";
                                 }
-
-                                Toast.makeText(AddBookActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddBookActivity.this, "Sách Đã Được Cập Nhật", Toast.LENGTH_SHORT).show();
 
                             }
                         });
@@ -165,7 +170,6 @@ public class AddBookActivity extends AppCompatActivity {
             }
         });
     }
-
     void AddBook(Book book){
 
         Map<String, Object> addBook = new HashMap<>();
@@ -194,12 +198,22 @@ public class AddBookActivity extends AppCompatActivity {
                             //tạo id cho sách tồn kho
                             String a = String.valueOf(i);
                             String idKho = setID+"A"+a;
+                            Map<String, Object> addBook1 = new HashMap<>();
+                            addBook1.put("tenSach", book.getTenSach());
+                            addBook1.put("tacGia", book.getTacGia());
+                            addBook1.put("loai", book.getLoai());
+                            addBook1.put("gia", book.getGia());
+                            addBook1.put("idDauSach", setID);
+                            addBook1.put("moTa", book.getMoTa());
+                            addBook1.put("image", book.getImage());
+                            addBook1.put("id",idKho);
+                            addBook1.put("giaThue",book.getGiaThue());
+                            addBook1.put("tinhTrang",0);
+//                            book1.setTinhTrang(0);
+//                            book1.setId(idKho);
 
-                            book1.setTinhTrang(0);
-                            book1.setId(idKho);
 
-
-                            db.collection("DauSach").document(String.valueOf(setID)).collection("SachTonKho").document(idKho).set(book1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            db.collection("DauSach").document(String.valueOf(setID)).collection("SachTonKho").document(idKho).set(addBook1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(AddBookActivity.this, setID , Toast.LENGTH_SHORT).show();
